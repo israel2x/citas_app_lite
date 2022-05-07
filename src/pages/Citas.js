@@ -1,9 +1,7 @@
 import React from "react";
-import CitasLayout from "../components/CitasLayout";
-import "antd/dist/antd.css";
 
 const Citas = () => {
-  return <CitasLayout></CitasLayout>;
+  return <h2>Citas...</h2>;
 };
 
 export default Citas;
