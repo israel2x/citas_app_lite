@@ -8,12 +8,11 @@ import {
   UploadOutlined,
 } from "@ant-design/icons";
 import "./citaslayout.css";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
 
 const MainLayout = () => {
-  let location = useLocation();
   let navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
 
@@ -21,25 +20,17 @@ const MainLayout = () => {
     setCollapsed(!collapsed);
   };
 
-  //console.log(location);
-
   const onClickHandler = (e) => {
-    //console.dir("Side item: " + e.key);
-    //console.log("location: " + location);
-    //console.log("navigate: " + navigate);
-
-    if (e.key == 1) {
-      console.log(e.key == 1);
+    if (e.key === "1") {
+      console.log(e.key === "1");
       navigate("citas");
-    } else if (e.key == 2) {
-      console.log(e.key == 2);
+    } else if (e.key === "2") {
+      console.log(e.key === "2");
       navigate("pacientes");
-    } else if (e.key == 3) {
-      console.log(e.key == 3);
+    } else if (e.key === "3") {
+      console.log(e.key === "3");
       navigate("recetas");
     }
-
-    //navigate("recetas");
   };
 
   return (
