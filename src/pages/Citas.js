@@ -1,7 +1,8 @@
 import React from "react";
+import CitasLayout from "../components/CitasLayout";
 
 const Citas = () => {
-  return <h2>Citas...</h2>;
+  return <CitasLayout></CitasLayout>;
 };
 
 export default Citas;

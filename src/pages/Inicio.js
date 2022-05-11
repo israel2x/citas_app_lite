@@ -1,5 +1,5 @@
 import React from "react";
-import CitasLayout from "../components/CitasLayout";
+//import CitasLayout from "../components/CitasLayout";
 import "antd/dist/antd.css";
 import { Routes, Route } from "react-router-dom";
 import Pacientes from "./Pacientes";

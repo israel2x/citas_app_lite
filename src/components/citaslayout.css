@@ -19,3 +19,9 @@
 .site-layout .site-layout-background {
   background: #fff;
 }
+
+.citas-calendar {
+  width: 300px;
+  border: 1.5px solid #ebcca4;
+  border-radius: 8px;
+}

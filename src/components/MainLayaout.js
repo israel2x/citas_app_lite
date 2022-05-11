@@ -21,12 +21,12 @@ const MainLayout = () => {
     setCollapsed(!collapsed);
   };
 
-  console.log(location);
+  //console.log(location);
 
   const onClickHandler = (e) => {
-    console.dir("Side item: " + e.key);
-    console.log("location: " + location);
-    console.log("navigate: " + navigate);
+    //console.dir("Side item: " + e.key);
+    //console.log("location: " + location);
+    //console.log("navigate: " + navigate);
 
     if (e.key == 1) {
       console.log(e.key == 1);
