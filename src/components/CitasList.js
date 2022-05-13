@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { List, Skeleton, Divider, Badge } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
-import axios from "axios";
+import { getAllCitas } from "../services/citasService";
 
 const CitasList = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  //const db_link =
-  // ("https://mycitaslite-jywhvad0y-israel2x.vercel.app/api/citas/all");
 
-  const db_link = "http://localhost:5000/api/citas/all";
   const loadMoreData = async () => {
     if (loading) {
       return;
     }
     setLoading(true);
-
-    const response = await axios.get(db_link);
-
-    console.log(response.data);
-    if (response) {
-      setData([...data, ...response.data]);
-      setLoading(false);
-    } else {
-      setLoading(false);
+    try {
+      const response = await getAllCitas();
+      //const { data: citasList } = await getAllCitas();
+      console.log(response.data);
+      if (response) {
+        setData([...data, ...response.data]);
+        setLoading(false);
+      } else {
+        setLoading(false);
+        setData([]);
+      }
+    } catch (ex) {
+      console.log(ex.response + " status:  " + ex.response.status);
     }
   };
 

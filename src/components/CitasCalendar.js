@@ -1,5 +1,7 @@
 import React from "react";
 import { Calendar } from "antd";
+import "moment/locale/es";
+import locale from "antd/lib/date-picker/locale/es_ES";
 
 const CitasCalendar = () => {
   const onPanelChange = (value, mode) => {
@@ -7,7 +9,11 @@ const CitasCalendar = () => {
   };
   return (
     <div className="citas-calendar">
-      <Calendar fullscreen={false} onPanelChange={onPanelChange} />
+      <Calendar
+        fullscreen={false}
+        onPanelChange={onPanelChange}
+        locale={locale}
+      />
     </div>
   );
 };
