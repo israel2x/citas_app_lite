@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { List, Skeleton, Divider, Badge } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getAllCitas } from "../services/citasService";
+import { DaySelectedContext } from "./Contexts/DaySelectedContext";
 
 const CitasList = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+
+  const { day, setDay } = useContext(DaySelectedContext);
+  console.log("context list: " + day);
 
   const loadMoreData = async () => {
     if (loading) {
@@ -29,8 +33,9 @@ const CitasList = () => {
   };
 
   useEffect(() => {
-    loadMoreData();
-  }, []);
+    //loadMoreData();
+    console.log("context list change: " + day);
+  }, [day]);
 
   return (
     <div

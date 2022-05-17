@@ -1,18 +1,49 @@
-import React from "react";
-import { Calendar } from "antd";
-import "moment/locale/es";
-import locale from "antd/lib/date-picker/locale/es_ES";
+import React, { useContext, useState } from "react";
+import dayjs from "dayjs";
+import Calendar from "./Calendar";
+import es from "dayjs/locale/es";
+import { DaySelectedContext } from "./Contexts/DaySelectedContext";
 
 const CitasCalendar = () => {
-  const onPanelChange = (value, mode) => {
-    console.log(value, mode);
+  dayjs.locale("es");
+  //const today = dayjs(new Date()).format("YYYY-MM-DD");
+  //console.log("today: " + today);
+
+  const { day, setDay } = useContext(DaySelectedContext);
+  console.log("context calendar: " + day);
+
+  const [calendar, setCalendar] = useState({
+    value: day, //today,
+    selectedValue: day, //today,
+  });
+
+  const onSelect = (value) => {
+    const now = value.format("YYYY-MM-DD");
+    console.log("On select: " + now);
+    setCalendar({
+      now,
+      selectedValue: now,
+    });
+
+    setDay(now);
   };
+
+  const onPanelChange = (value) => {
+    const now = value.format("YYYY-MM-DD");
+    console.log("change: " + now);
+    setCalendar({
+      ...calendar,
+      now,
+    });
+  };
+
   return (
     <div className="citas-calendar">
       <Calendar
         fullscreen={false}
         onPanelChange={onPanelChange}
-        locale={locale}
+        onSelect={onSelect}
+        locale={es}
       />
     </div>
   );

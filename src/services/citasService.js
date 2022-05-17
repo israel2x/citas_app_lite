@@ -20,8 +20,9 @@ export function getCitaById(citaId) {
   return http.get(citaUrl(citaId));
 }
 
+//cita con paciente nuevo
 export function saveNewCita(cita) {
-  return http.post(apiEndpoint, cita);
+  return http.post(apiEndpoint + "/new", cita);
 }
 
 export function updateCita(cita) {

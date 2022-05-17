@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Form,
   Button,
@@ -12,30 +12,61 @@ import {
 } from "antd";
 import "moment/locale/es";
 import locale from "antd/lib/date-picker/locale/es_ES";
-//import moment from "moment";
+import { saveNewCita } from "../services/citasService";
 
 const CitaForm = ({ onClose }) => {
   const formatHour = "HH:mm";
   const { Option } = Select;
-  //const [form] = Form.useForm();
+  const [form] = Form.useForm();
 
   const onFinish = (e) => {
-    console.log("data form: " + e);
-    console.log("data json: " + JSON.stringify(e, null, 2));
-    console.log(JSON.parse(JSON.stringify(e, null, 2)));
-    const datax = JSON.parse(JSON.stringify(e, null, 2));
-    console.log(datax.lastname);
-    const citaData = {};
-    citaData.username = datax.username;
-    console.log(citaData);
+    const dataForm = JSON.parse(JSON.stringify(e, null, 2));
+    console.log(dataForm.lastname);
+    const citaNew = {};
+    citaNew.fecha_cita = dataForm.citafecha ? dataForm.citafecha : null;
+    citaNew.hora_cita = dataForm.citahora ? dataForm.citahora : null;
+    citaNew.estado_cita = "Pendiente";
+    citaNew.name = dataForm.username ? dataForm.username : null;
+    citaNew.lastname = dataForm.lastname ? dataForm.lastname : null;
+    citaNew.cedula = dataForm.cedula ? dataForm.cedula : null;
+    citaNew.edad = dataForm.edad ? dataForm.edad : null;
+    citaNew.gender = dataForm.genero ? dataForm.genero : null;
+    citaNew.direccion = dataForm.direccion ? dataForm.direccion : null;
+    citaNew.telefono = dataForm.telefono ? dataForm.telefono : null;
+    citaNew.email = dataForm.email ? dataForm.email : null;
+    citaNew.motivo = "Consulta medica";
+    citaNew.sintomas = dataForm.sintomas ? dataForm.sintomas : null;
+    citaNew.isAdmin = false;
+    citaNew.doctorId = "62794e8a2e15859c7b29624f";
+    citaNew.rol = "Paciente";
+
+    console.log(citaNew);
+
+    sendCita(citaNew);
+  };
+
+  const sendCita = async (cita) => {
+    const citaNew = cita;
+    try {
+      const { data: cita } = await saveNewCita(citaNew);
+      console.log(cita);
+      onFill();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onFinishFailed = (error) => {
     console.log("error: " + error);
   };
 
+  const onFill = () => {
+    form.setFieldsValue();
+  };
+
   return (
     <Form
+      form={form}
       name="guardarcita"
       layout="vertical"
       onFinish={onFinish}
