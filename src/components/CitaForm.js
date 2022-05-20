@@ -72,7 +72,6 @@ const CitaForm = ({ onClose }) => {
     try {
       const { data: cita } = await saveNewCita(citaNew);
       console.log(cita);
-      onFill();
     } catch (error) {
       console.log(error);
     }
@@ -80,10 +79,6 @@ const CitaForm = ({ onClose }) => {
 
   const onFinishFailed = (error) => {
     console.log("error: " + error);
-  };
-
-  const onFill = () => {
-    form.setFieldsValue();
   };
 
   return (
@@ -94,8 +89,8 @@ const CitaForm = ({ onClose }) => {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
-      <Row gutter={16}>
-        <Col span={12}>
+      <Row gutter={24}>
+        <Col span={10}>
           <Form.Item
             name="doctorId"
             label="Doctor"
@@ -108,9 +103,9 @@ const CitaForm = ({ onClose }) => {
             </Select>
           </Form.Item>
         </Col>
-      </Row>
-      <Row gutter={16}>
-        <Col span={12}>
+        {/* </Row>
+      <Row gutter={16}> */}
+        <Col span={9}>
           <Form.Item
             name="citafecha"
             label="Fecha Cita"
@@ -124,7 +119,7 @@ const CitaForm = ({ onClose }) => {
             />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col span={5}>
           <Form.Item
             name="citahora"
             label="Hora Cita"
@@ -134,9 +129,7 @@ const CitaForm = ({ onClose }) => {
           </Form.Item>
         </Col>
       </Row>
-      <Divider orientation="left" orientationMargin="0">
-        Información del Paciente:
-      </Divider>
+      <Divider orientation="left"></Divider>
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item
@@ -241,15 +234,19 @@ const CitaForm = ({ onClose }) => {
           </Form.Item>
         </Col>
       </Row>
-      <Divider></Divider>
-      <Form.Item>
-        <Space>
-          <Button type="primary" htmlType="submit">
-            Guardar
-          </Button>
-          <Button onClick={onClose}>Cancel</Button>
-        </Space>
-      </Form.Item>
+
+      <Row gutter={16}>
+        <Col span={24} style={{ textAlign: "right" }}>
+          <Form.Item>
+            <Space size={"large"}>
+              <Button type="primary" htmlType="submit">
+                Guardar
+              </Button>
+              <Button onClick={onClose}>Cancel</Button>
+            </Space>
+          </Form.Item>
+        </Col>
+      </Row>
     </Form>
   );
 };
