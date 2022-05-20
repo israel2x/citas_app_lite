@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { List, Skeleton, Divider, Badge } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { getAllCitas } from "../services/citasService";
+import { getCitasByDate } from "../services/citasService";
 import { DaySelectedContext } from "./Contexts/DaySelectedContext";
 
 const CitasList = () => {
@@ -11,17 +11,18 @@ const CitasList = () => {
   const { day, setDay } = useContext(DaySelectedContext);
   console.log("context list: " + day);
 
-  const loadMoreData = async () => {
+  const loadMoreData = async (day) => {
     if (loading) {
       return;
     }
     setLoading(true);
     try {
-      const response = await getAllCitas();
+      const response = await getCitasByDate(day);
       //const { data: citasList } = await getAllCitas();
       console.log(response.data);
       if (response) {
-        setData([...data, ...response.data]);
+        // setData([...data, ...response.data]);
+        setData([...response.data]);
         setLoading(false);
       } else {
         setLoading(false);
@@ -33,7 +34,7 @@ const CitasList = () => {
   };
 
   useEffect(() => {
-    //loadMoreData();
+    loadMoreData(day);
     console.log("context list change: " + day);
   }, [day]);
 
@@ -50,9 +51,9 @@ const CitasList = () => {
       <InfiniteScroll
         dataLength={data.length}
         next={loadMoreData}
-        hasMore={data.length < 50}
+        hasMore={data.length == 0}
         loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
-        endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+        endMessage={<Divider plain>...</Divider>}
         scrollableTarget="scrollableDiv"
       >
         <List

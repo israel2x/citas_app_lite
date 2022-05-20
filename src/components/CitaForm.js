@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   Button,
@@ -9,23 +9,44 @@ import {
   DatePicker,
   Space,
   TimePicker,
+  Divider,
 } from "antd";
 import "moment/locale/es";
 import locale from "antd/lib/date-picker/locale/es_ES";
 import { saveNewCita } from "../services/citasService";
+import { getDoctors } from "../services/userService";
+import dayjs from "dayjs";
 
 const CitaForm = ({ onClose }) => {
   const formatHour = "HH:mm";
   const { Option } = Select;
   const [form] = Form.useForm();
+  const today = dayjs(new Date()).format("YYYY-MM-DD");
+
+  const [doctors, setDoctors] = useState([]);
+  const [errorDoctos, setErrorDoctos] = useState(false);
+  //guardar doctores en el localstorage y cargarlos de ahi
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { status, data } = await getDoctors();
+        console.log(data);
+        setDoctors(data);
+      } catch (error) {
+        console.log(error);
+        setErrorDoctos(true);
+      }
+    };
+    fetchData();
+  }, []);
 
   const onFinish = (e) => {
     const dataForm = JSON.parse(JSON.stringify(e, null, 2));
-    console.log(dataForm.lastname);
+    console.log(dataForm);
     const citaNew = {};
     citaNew.fecha_cita = dataForm.citafecha ? dataForm.citafecha : null;
     citaNew.hora_cita = dataForm.citahora ? dataForm.citahora : null;
-    citaNew.estado_cita = "Pendiente";
+    citaNew.estado_cita = "PENDIENTE";
     citaNew.name = dataForm.username ? dataForm.username : null;
     citaNew.lastname = dataForm.lastname ? dataForm.lastname : null;
     citaNew.cedula = dataForm.cedula ? dataForm.cedula : null;
@@ -37,12 +58,13 @@ const CitaForm = ({ onClose }) => {
     citaNew.motivo = "Consulta medica";
     citaNew.sintomas = dataForm.sintomas ? dataForm.sintomas : null;
     citaNew.isAdmin = false;
-    citaNew.doctorId = "62794e8a2e15859c7b29624f";
-    citaNew.rol = "Paciente";
+    citaNew.doctorId = dataForm.doctorId ? dataForm.doctorId : null;
+    citaNew.rol = "PACIENTE";
 
     console.log(citaNew);
 
-    sendCita(citaNew);
+    form.resetFields();
+    //sendCita(citaNew);
   };
 
   const sendCita = async (cita) => {
@@ -75,6 +97,21 @@ const CitaForm = ({ onClose }) => {
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item
+            name="doctorId"
+            label="Doctor"
+            rules={[{ required: true, message: "Selecione el doctor" }]}
+          >
+            <Select placeholder="Selecione el doctor" name="doctorId">
+              {doctors.map((doctor) => (
+                <Option value={doctor._id}>{doctor.name}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item
             name="citafecha"
             label="Fecha Cita"
             rules={[{ required: true, message: "Ingrese la fecha de la cita" }]}
@@ -97,6 +134,9 @@ const CitaForm = ({ onClose }) => {
           </Form.Item>
         </Col>
       </Row>
+      <Divider orientation="left" orientationMargin="0">
+        Información del Paciente:
+      </Divider>
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item
@@ -180,7 +220,7 @@ const CitaForm = ({ onClose }) => {
           </Form.Item>
         </Col>
       </Row>
-
+      <Divider orientation="left" orientationMargin="0"></Divider>
       <Row gutter={16}>
         <Col span={24}>
           <Form.Item
@@ -201,6 +241,7 @@ const CitaForm = ({ onClose }) => {
           </Form.Item>
         </Col>
       </Row>
+      <Divider></Divider>
       <Form.Item>
         <Space>
           <Button type="primary" htmlType="submit">

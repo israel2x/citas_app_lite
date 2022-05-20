@@ -11,6 +11,12 @@ export function getAllCitas() {
   return http.get(apiEndpoint + "/all");
 }
 
+export function getCitasByDate(date) {
+  const body = {};
+  body.date = date;
+  return http.post(apiEndpoint + "/date/", body);
+}
+
 export function getCitasByMonth(month) {
   return http.get(apiEndpoint + "/month/" + month);
 }
