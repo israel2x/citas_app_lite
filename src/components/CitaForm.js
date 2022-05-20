@@ -10,6 +10,7 @@ import {
   Space,
   TimePicker,
   Divider,
+  message,
 } from "antd";
 import "moment/locale/es";
 import locale from "antd/lib/date-picker/locale/es_ES";
@@ -22,6 +23,7 @@ const CitaForm = ({ onClose }) => {
   const { Option } = Select;
   const [form] = Form.useForm();
   const today = dayjs(new Date()).format("YYYY-MM-DD");
+  const key = "updatable";
 
   const [doctors, setDoctors] = useState([]);
   const [errorDoctos, setErrorDoctos] = useState(false);
@@ -63,17 +65,21 @@ const CitaForm = ({ onClose }) => {
 
     console.log(citaNew);
 
+    sendCita(citaNew);
+
     form.resetFields();
-    //sendCita(citaNew);
   };
 
   const sendCita = async (cita) => {
     const citaNew = cita;
+    message.loading({ content: "Eviando Cita...", key });
     try {
       const { data: cita } = await saveNewCita(citaNew);
       console.log(cita);
+      message.success({ content: "Se Guardó la Cita", key, duration: 3 });
     } catch (error) {
       console.log(error);
+      message.error({ content: error, key, duration: 5 });
     }
   };
 
@@ -90,7 +96,7 @@ const CitaForm = ({ onClose }) => {
       onFinishFailed={onFinishFailed}
     >
       <Row gutter={24}>
-        <Col span={10}>
+        <Col span={8}>
           <Form.Item
             name="doctorId"
             label="Doctor"
@@ -98,14 +104,16 @@ const CitaForm = ({ onClose }) => {
           >
             <Select placeholder="Selecione el doctor" name="doctorId">
               {doctors.map((doctor) => (
-                <Option value={doctor._id}>{doctor.name}</Option>
+                <Option value={doctor._id} key={doctor._id}>
+                  {doctor.name + " " + doctor.lastname}
+                </Option>
               ))}
             </Select>
           </Form.Item>
         </Col>
         {/* </Row>
       <Row gutter={16}> */}
-        <Col span={9}>
+        <Col span={7}>
           <Form.Item
             name="citafecha"
             label="Fecha Cita"
@@ -119,7 +127,7 @@ const CitaForm = ({ onClose }) => {
             />
           </Form.Item>
         </Col>
-        <Col span={5}>
+        <Col span={9}>
           <Form.Item
             name="citahora"
             label="Hora Cita"
@@ -242,7 +250,9 @@ const CitaForm = ({ onClose }) => {
               <Button type="primary" htmlType="submit">
                 Guardar
               </Button>
-              <Button onClick={onClose}>Cancel</Button>
+              <Button onClick={onClose} danger>
+                Cancelar
+              </Button>
             </Space>
           </Form.Item>
         </Col>
