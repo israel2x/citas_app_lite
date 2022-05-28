@@ -12,18 +12,21 @@ import {
   Divider,
   message,
 } from "antd";
-import "moment/locale/es";
+//import "moment/locale/es";
 import locale from "antd/lib/date-picker/locale/es_ES";
 import { saveNewCita } from "../services/citasService";
 import { getDoctors } from "../services/userService";
 import dayjs from "dayjs";
+import es from "dayjs/locale/es";
 
 const CitaForm = ({ onClose }) => {
+  dayjs.locale("es");
   const formatHour = "HH:mm";
   const { Option } = Select;
   const [form] = Form.useForm();
-  const today = dayjs(new Date()).format("YYYY-MM-DD");
+  const today = dayjs(new Date()).format("HH:mm");
   const key = "updatable";
+  console.log(today);
 
   const [doctors, setDoctors] = useState([]);
   const [errorDoctos, setErrorDoctos] = useState(false);
@@ -76,7 +79,7 @@ const CitaForm = ({ onClose }) => {
     try {
       const { data: cita } = await saveNewCita(citaNew);
       console.log(cita);
-      message.success({ content: "Se Guardó la Cita", key, duration: 3 });
+      message.success({ content: "Se Guardó la Cita", key, duration: 6 });
     } catch (error) {
       console.log(error);
       message.error({ content: error, key, duration: 5 });

@@ -3,6 +3,7 @@ import { List, Skeleton, Divider, Badge } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getCitasByDate } from "../services/citasService";
 import { DaySelectedContext } from "./Contexts/DaySelectedContext";
+import dayjs from "dayjs";
 
 const CitasList = () => {
   const [loading, setLoading] = useState(false);
@@ -64,7 +65,12 @@ const CitasList = () => {
                 /* avatar={<Avatar src={item.picture.large} />} */
                 title={
                   <a href="https://ant.design">
-                    {"Nombre: " + item.pacienteId.name}
+                    {dayjs(item.hora_cita).format("HH:mm") +
+                      " " +
+                      "Paciente: " +
+                      item.pacienteId.name +
+                      " " +
+                      item.pacienteId.lastname}
                   </a>
                 }
                 description={"Sintomas: " + item.sintomas}

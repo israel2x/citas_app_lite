@@ -18,14 +18,15 @@ const CitasCalendar = () => {
   });
 
   const onSelect = (value) => {
-    const now = value.format("YYYY-MM-DD");
-    console.log("On select: " + now);
+    //console.log("Celendar selecionada: " + value);
+    //const now = value.format("YYYY-MM-DD");
+    //console.log("On select: " + now);
     setCalendar({
-      now,
-      selectedValue: now,
+      value,
+      selectedValue: value,
     });
 
-    setDay(now);
+    setDay(value);
   };
 
   const onPanelChange = (value) => {

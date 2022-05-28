@@ -9,6 +9,7 @@ import { DaySelectedContext } from "./Contexts/DaySelectedContext";
 const CitasLayout = () => {
   const today = dayjs(new Date()).format("YYYY-MM-DD");
   const [day, setDay] = useState(today);
+  //console.log("Day context: " + today);
 
   return (
     <DaySelectedContext.Provider value={{ day, setDay }}>
