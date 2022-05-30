@@ -22,13 +22,11 @@ const MainLayout = () => {
 
   const onClickHandler = (e) => {
     if (e.key === "1") {
-      console.log(e.key === "1");
-      navigate("citas");
+      //console.log(e.key === "1");
+      navigate("");
     } else if (e.key === "2") {
-      console.log(e.key === "2");
       navigate("pacientes");
     } else if (e.key === "3") {
-      console.log(e.key === "3");
       navigate("recetas");
     }
   };
