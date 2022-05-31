@@ -1,7 +1,7 @@
 import http from "../services/httpService";
-import config from "../config.json";
+//import config from "../config.json";
 
-const apiEndpoint = config.apiTest + "/citas";
+const apiEndpoint = "/citas";
 
 function citaUrl(citaId) {
   return `${apiEndpoint}/${citaId}`;

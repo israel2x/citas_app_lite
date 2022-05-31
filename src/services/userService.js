@@ -1,7 +1,7 @@
 import http from "../services/httpService";
-import config from "../config.json";
+//import config from "../config.json";
 
-const apiEndpoint = config.apiTest + "/users/";
+const apiEndpoint = "/users/";
 
 export function getDoctors() {
   return http.get(apiEndpoint + "doctors");
